@@ -36,6 +36,10 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{github.token}}
+      - name: Prepare repository owner name
+        id: prep
+        run: echo "::set-output name=repo_owner::$(echo ${{ github.repository_owner }} | awk '{print tolower($0)}')"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -45,5 +49,6 @@ jobs:
           tags: |
             ${{secrets.DOCKER_USERNAME}}/cloudflare-warp:${{steps.prepare-docker-image-build-metadata.outputs.DOCKER_IMAGE_TAG}}
             ${{secrets.DOCKER_USERNAME}}/cloudflare-warp:latest
-            ghcr.io/${{toLower(github.repository_owner)}}/cloudflare-warp:${{steps.prepare-docker-image-build-metadata.outputs.DOCKER_IMAGE_TAG}}
-            ghcr.io/${{toLower(github.repository_owner)}}/cloudflare-warp:latest
+            ghcr.io/${{steps.prep.outputs.repo_owner}}/cloudflare-warp:${{steps.prepare-docker-image-build-metadata.outputs.DOCKER_IMAGE_TAG}}
+            ghcr.io/${{steps.prep.outputs.repo_owner}}/cloudflare-warp:latest
+      
