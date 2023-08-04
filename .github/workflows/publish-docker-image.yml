@@ -45,5 +45,5 @@ jobs:
           tags: |
             ${{secrets.DOCKER_USERNAME}}/cloudflare-warp:${{steps.prepare-docker-image-build-metadata.outputs.DOCKER_IMAGE_TAG}}
             ${{secrets.DOCKER_USERNAME}}/cloudflare-warp:latest
-            ghcr.io/${{github.repository_owner}}/cloudflare-warp:${{steps.prepare-docker-image-build-metadata.outputs.DOCKER_IMAGE_TAG}}
-            ghcr.io/${{github.repository_owner}}/cloudflare-warp:latest
+            ghcr.io/${{toLower(github.repository_owner)}}/cloudflare-warp:${{steps.prepare-docker-image-build-metadata.outputs.DOCKER_IMAGE_TAG}}
+            ghcr.io/${{toLower(github.repository_owner)}}/cloudflare-warp:latest
